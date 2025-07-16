@@ -133,9 +133,13 @@ const EnhancedAdminDashboard: React.FC<EnhancedAdminDashboardProps> = ({ user, o
       setWhatsappGroups(groups)
     } catch (error) {
       console.error('Error fetching WhatsApp groups:', error)
-      // Don't show error if Z-API is not configured
-      if (!import.meta.env.VITE_ZAPI_BASE_URL) {
-        console.warn('Z-API not configured')
+      // Set empty array on error to prevent crashes
+      setWhatsappGroups([])
+      
+      // Only show error notification if Z-API is configured
+      const config = getRuntimeConfig()
+      if (config.baseUrl && config.clientToken) {
+        notificationSystem.error('Erro Z-API', 'Não foi possível buscar grupos do WhatsApp')
       }
     }
   }

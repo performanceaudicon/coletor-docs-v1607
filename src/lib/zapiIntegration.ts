@@ -79,21 +79,27 @@ export const fetchWhatsAppGroups = async (page: number = 1, pageSize: number = 2
 
     const data = await response.json()
     
-    // Z-API returns groups in different formats, adapt as needed
-    if (data.groups) {
-      return data.groups.map((group: any) => ({
-        id: group.id,
-        name: group.name || group.subject,
-        isGroup: true,
-        participants: group.participants?.length || 0
-      }))
+    // Handle different response formats from Z-API
+    let groups = []
+    
+    if (Array.isArray(data)) {
+      groups = data
+    } else if (data.groups && Array.isArray(data.groups)) {
+      groups = data.groups
+    } else if (data.data && Array.isArray(data.data)) {
+      groups = data.data
+    } else if (data.result && Array.isArray(data.result)) {
+      groups = data.result
+    } else {
+      console.warn('Unexpected Z-API response format:', data)
+      return []
     }
     
-    return data.map((group: any) => ({
-      id: group.id,
-      name: group.name || group.subject,
+    return groups.map((group: any) => ({
+      id: group.id || group.groupId || group.chatId,
+      name: group.name || group.subject || group.title || 'Grupo sem nome',
       isGroup: true,
-      participants: group.participants?.length || 0
+      participants: group.participants?.length || group.participantsCount || 0
     }))
   } catch (error: any) {
     console.error('Error fetching WhatsApp groups:', error)
