@@ -20,6 +20,9 @@ import {
   MessageCircle,
   Database
 } from 'lucide-react'
+import ZAPIConfigManager from './ZAPIConfigManager'
+import StartupDocumentManager from './StartupDocumentManager'
+import EnhancedStartupDetailsModal from './EnhancedStartupDetailsModal'
 import { 
   getAllUsers, 
   updateUser, 
@@ -37,7 +40,6 @@ import NotificationCenter from '../ui/NotificationCenter'
 import LoadingSpinner from '../ui/LoadingSpinner'
 import DocumentConfigManager from './DocumentConfigManager'
 import MessageTemplateManager from './MessageTemplateManager'
-import StartupDetailsModal from './StartupDetailsModal'
 
 interface EnhancedAdminDashboardProps {
   user: any
@@ -303,9 +305,11 @@ const EnhancedAdminDashboard: React.FC<EnhancedAdminDashboardProps> = ({ user, o
 
   const tabs = [
     { id: 'overview', name: 'Visão Geral', icon: Users },
+    { id: 'startup-docs', name: 'Documentos das Startups', icon: FileText },
     { id: 'documents', name: 'Configurações de Documentos', icon: FileText },
     { id: 'messages', name: 'Templates de Mensagem', icon: MessageCircle },
-    { id: 'whatsapp', name: 'WhatsApp', icon: MessageSquare }
+    { id: 'whatsapp', name: 'WhatsApp', icon: MessageSquare },
+    { id: 'zapi-config', name: 'Configuração Z-API', icon: Settings }
   ]
 
   if (loading) {
@@ -548,8 +552,10 @@ const EnhancedAdminDashboard: React.FC<EnhancedAdminDashboardProps> = ({ user, o
           </div>
         )}
 
+        {activeTab === 'startup-docs' && <StartupDocumentManager />}
         {activeTab === 'documents' && <DocumentConfigManager />}
         {activeTab === 'messages' && <MessageTemplateManager />}
+        {activeTab === 'zapi-config' && <ZAPIConfigManager />}
         
         {activeTab === 'whatsapp' && (
           <div className="space-y-6">
@@ -627,7 +633,7 @@ const EnhancedAdminDashboard: React.FC<EnhancedAdminDashboardProps> = ({ user, o
 
         {/* Modals */}
         {showStartupDetails && selectedStartup && (
-          <StartupDetailsModal
+          <EnhancedStartupDetailsModal
             startup={selectedStartup}
             onClose={() => setShowStartupDetails(false)}
           />
