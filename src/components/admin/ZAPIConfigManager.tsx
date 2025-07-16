@@ -307,14 +307,14 @@ const ZAPIConfigManager: React.FC = () => {
                       Grupos: {testResults.groups.message}
                     </span>
                   </div>
-                  {testResults.groups.data.length > 0 && (
+                  {(testResults.groups?.data?.length ?? 0) > 0 && (
                     <div className="space-y-1">
                       {testResults.groups.data.slice(0, 5).map((group: any) => (
                         <div key={group.id} className="text-xs text-green-700 bg-green-100 p-2 rounded">
                           {group.name} ({group.participants || 0} participantes)
                         </div>
                       ))}
-                      {testResults.groups.data.length > 5 && (
+                      {(testResults.groups?.data?.length ?? 0) > 5 && (
                         <p className="text-xs text-green-600">
                           ... e mais {testResults.groups.data.length - 5} grupos
                         </p>
