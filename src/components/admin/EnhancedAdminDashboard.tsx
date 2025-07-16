@@ -660,13 +660,14 @@ const EnhancedAdminDashboard: React.FC<EnhancedAdminDashboardProps> = ({ user, o
                     {documentConfigs.map(config => (
                       <option key={config.id} value={config.id}>
                         {config.name}
- </option>
+                      </option>
                     ))}
                   </select>
                 </div>
               </div>
-              <div className=\"flex justify-end space-x-2 mt-6\">
-                <Button variant=\"secondary\" onClick={() => setShowLinkConfigModal(false)}>\n                  Cancelar
+              <div className="flex justify-end space-x-2 mt-6">
+                <Button variant="secondary" onClick={() => setShowLinkConfigModal(false)}>
+                  Cancelar
                 </Button>
                 <Button onClick={handleAssignConfig}>
                   Atribuir Configuração
