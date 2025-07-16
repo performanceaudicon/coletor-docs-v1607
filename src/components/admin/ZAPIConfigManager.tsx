@@ -52,24 +52,40 @@ const ZAPIConfigManager: React.FC = () => {
 
     try {
       // Teste 1: Status da instância
-      const statusResult = await getInstanceStatus()
+      let statusResult = null
+      try {
+        statusResult = await getInstanceStatus()
+      } catch (statusError) {
+        console.warn('Status test failed:', statusError)
+      }
       
       // Teste 2: Buscar grupos
-      const groupsResult = await fetchWhatsAppGroups()
+      let groupsResult = []
+      try {
+        groupsResult = await fetchWhatsAppGroups()
+      } catch (groupsError) {
+        console.warn('Groups test failed:', groupsError)
+      }
       
       // Teste 3: Enviar mensagem de teste (opcional)
       const testMessage = "🤖 Teste de conexão Z-API - Sistema funcionando corretamente!"
       
       setTestResults({
-        status: {
+        status: statusResult ? {
           success: true,
           data: statusResult,
           message: 'Status da instância obtido com sucesso'
+        } : {
+          success: false,
+          message: 'Não foi possível obter status da instância'
         },
-        groups: {
+        groups: groupsResult.length > 0 ? {
           success: true,
           data: groupsResult,
           message: `${groupsResult.length} grupos encontrados`
+        } : {
+          success: false,
+          message: 'Nenhum grupo encontrado ou erro na busca'
         },
         connection: {
           success: true,

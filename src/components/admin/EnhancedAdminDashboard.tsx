@@ -31,7 +31,8 @@ import {
   getDocumentConfig,
   getAllDocumentConfigs
 } from '../../lib/firebaseFirestore'
-import { fetchWhatsAppGroups, sendWhatsAppMessage, sendGroupMessage, getInstanceStatus } from '../../lib/zapiIntegration'
+// Add this import at the top
+import { fetchWhatsAppGroups, sendWhatsAppMessage, sendGroupMessage, getInstanceStatus, getRuntimeConfig } from '../../lib/zapiIntegration'
 import { notificationSystem } from '../../lib/notificationSystem'
 import { changePassword } from '../../lib/firebaseAuth'
 import Card from '../ui/Card'
