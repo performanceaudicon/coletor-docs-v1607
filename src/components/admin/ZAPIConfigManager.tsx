@@ -20,7 +20,15 @@ const ZAPIConfigManager: React.FC = () => {
   })
   const [showToken, setShowToken] = useState(false)
   const [testing, setTesting] = useState(false)
-  const [testResults, setTestResults] = useState<any>(null)
+  const [testResults, setTestResults] = useState<any>({
+    status: null,
+    groups: {
+      success: false,
+      data: [],
+      message: ''
+    },
+    connection: null
+  })
   const [saving, setSaving] = useState(false)
 
   const handleSaveConfig = async () => {
@@ -48,7 +56,15 @@ const ZAPIConfigManager: React.FC = () => {
     }
 
     setTesting(true)
-    setTestResults(null)
+    setTestResults({ // Reset to initial structure
+      status: null,
+      groups: {
+        success: false,
+        data: [],
+        message: ''
+      },
+      connection: null
+    })
 
     try {
       // Teste 1: Status da instância
@@ -96,6 +112,12 @@ const ZAPIConfigManager: React.FC = () => {
       notificationSystem.success('Teste concluído', 'Todos os testes da Z-API foram executados com sucesso!')
     } catch (error: any) {
       setTestResults({
+        status: null, // Ensure status is explicitly null
+        groups: { // Ensure groups is explicitly set to default empty state
+          success: false,
+          data: [],
+          message: 'Erro ao buscar grupos'
+        },
         connection: {
           success: false,
           message: error.message || 'Erro na conexão'
